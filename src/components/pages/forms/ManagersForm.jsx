@@ -36,15 +36,15 @@ function ManagerForm() {
     mutationKey: ["add_manager"],
     mutationFn: async (values) =>
       await axios.post(`users/manager/signup`, values),
-    onSuccess: () => {
+    onSuccess: (msg) => {
       queryClient.invalidateQueries({ queryKey: ["get_managers"] });
       document.getElementById("manager_modal").close();
       setValues(initialValues);
-      showSuccessToast("Manager added successfully");
+      showSuccessToast(msg.data.message);
     },
     onError: (error) => {
       document.getElementById("manager_modal").close();
-      showErrorToast("failed adding manager");
+      showErrorToast(error.response.data.error);
     },
   });
   const { man, mutateDelete } = useContext(ActionContext);
@@ -145,8 +145,8 @@ function ManagerForm() {
             {!man
               ? "Add Managar"
               : man?.bySearch
-                ? "Edit Manager"
-                : "Edit Manager"}
+              ? "Edit Manager"
+              : "Edit Manager"}
           </button>
         </div>
       </form>

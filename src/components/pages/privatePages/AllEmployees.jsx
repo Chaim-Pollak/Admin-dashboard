@@ -24,7 +24,7 @@ function AllEmployees() {
   const { handleAddEmployee, getAllDetails, handleEditEmployee } =
     useContext(ActionContext);
 
-  const url = `/users/employee/getallempolyees?page=${page}&limit=${limit}`;
+  const url = `/users/employee/getAllEmployees?page=${page}&limit=${limit}`;
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -38,7 +38,7 @@ function AllEmployees() {
   });
 
   async function downloadXl() {
-    const result = await getAllDetails("/users/employee/getallempolyees");
+    const result = await getAllDetails("/users/employee/getAllEmployees");
     console.log(result);
 
     if (!result) return;

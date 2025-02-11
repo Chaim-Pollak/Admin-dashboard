@@ -19,7 +19,7 @@ function AllManagers() {
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
 
-  const url = `/users/manager/getallmanagers?page=${page}&limit=${limit}`;
+  const url = `/users/manager/getAllManagers?page=${page}&limit=${limit}`;
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_managers", page],
@@ -34,7 +34,7 @@ function AllManagers() {
   const { handleEditManager } = useContext(ActionContext);
 
   async function downloadXl() {
-    const result = await getAllDetails("/users/manager/getallmanagers");
+    const result = await getAllDetails("/users/manager/getAllManagers");
 
     if (!result) return;
 

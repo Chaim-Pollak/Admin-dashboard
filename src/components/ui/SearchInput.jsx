@@ -16,7 +16,7 @@ function SearchInput({ setSearchInput, suggestions, suggestionKey, onClick }) {
       />
       <Search className="absolute right-3 top-3.5 text-amber-500 w-5 h-5" />
 
-      {suggestions.length > 0 && (
+      {suggestions?.length > 0 && (
         <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
           {suggestions.map((suggestion, index) => (
             <li

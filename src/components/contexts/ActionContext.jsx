@@ -10,29 +10,7 @@ function ActionProvider({ children }) {
   const [man, setMan] = useState(null);
   const [iss, setIss] = useState(null);
 
-  async function deleteEmployee(id) {
-    try {
-      const { data } = await axios.delete(`/users/employee/delete/${id}`);
-
-      if (data.success) {
-        setToggleRequest(!toggleRequest);
-        showSuccessToast(data.message);
-      }
-    } catch (error) {
-      const err = error.response.data.error;
-      showErrorToast(err);
-    }
-  }
   const queryClient = useQueryClient();
-  const { mutate: mutateDelete } = useMutation({
-    mutationKey: "delete_manager",
-    mutationFn: async (id) => axios.delete(`users/manager/delete/${id}`),
-    onSuccess: (data) => {
-      showSuccessToast(data.message);
-      queryClient.invalidateQueries({ queryKey: ["get_managers"] });
-      document.getElementById("manager_modal").close();
-    },
-  });
 
   function handleEditEmployee(employee) {
     document.getElementById("employee_modal").showModal();
@@ -80,7 +58,9 @@ function ActionProvider({ children }) {
     document.getElementById("profession_modal").showModal();
     setMan(null);
   }
+
   const { mutate: mutatePutInHistory } = useMutation({
+    //
     mutationKey: ["put_in_history"],
     mutationFn: async (id) =>
       await axios.post(`issues/deleteAndArchiveIssue/${id}`),
@@ -93,12 +73,10 @@ function ActionProvider({ children }) {
   const value = {
     toggleRequest,
     setToggleRequest,
-    deleteEmployee,
     emp,
     handleEditEmployee,
     handleEditManager,
     man,
-    mutateDelete,
     handleAddManager,
     getAllDetails,
     handleAddIssue,

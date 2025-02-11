@@ -9,7 +9,7 @@ function AllProfessions() {
   const [page, setPage] = useState(1);
   const [limit] = useState(6);
 
-  const url = `/professions/getallprofessions?page=${page}&limit=${limit}`;
+  const url = `/professions/getAllProfessions?page=${page}&limit=${limit}`;
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_professions", page],

@@ -63,8 +63,8 @@ function AuthProvider({ children }) {
   }
   async function signOut() {
     try {
-      const { data } = await axios.get("/users/manager/logout");
-      window.location.reload();
+      const { data } = await axios.get("/users/logout");
+      window.location.href = "/login";
       console.log(data);
     } catch (error) {
       console.log(error);

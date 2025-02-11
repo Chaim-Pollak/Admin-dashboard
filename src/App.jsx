@@ -92,7 +92,7 @@ function App() {
             })}
           />
           <Route
-            path="addprofession"
+            path="addProfession"
             lazy={async () => ({
               Component: (
                 await import("./components/pages/forms/ProfessionForm")

@@ -13,7 +13,7 @@ function ProfessionsTable({ professions }) {
   const { mutate } = useMutation({
     mutationKey: "delete_profession",
     mutationFn: async (id) =>
-      axios.delete(`/professions/deleteprofession/${id}`),
+      axios.delete(`/professions/deleteProfession/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get_professions"] });
       showSuccessToast("Profession deleted successfully");
