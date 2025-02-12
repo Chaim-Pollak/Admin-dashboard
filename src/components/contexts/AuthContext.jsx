@@ -11,11 +11,11 @@ function AuthProvider({ children }) {
 
   async function handleLogin(values) {
     try {
-      const { data } = await axios.post("/users/manager/signin", values);
+      const { data } = await axios.post("/users/manager/login", values);
       if (data.success) {
-        showSuccessToast(data.message);
         setIsAuth(true);
         setUser(data.data);
+        showSuccessToast(data.message);
         return true;
       }
     } catch (error) {
@@ -34,6 +34,7 @@ function AuthProvider({ children }) {
         setUser(data.user);
       }
     } catch (error) {
+      setIsAuth(false);
       console.log(error);
     }
   }
@@ -42,26 +43,7 @@ function AuthProvider({ children }) {
     authUser();
   }, []);
 
-  async function handleManager(values) {
-    try {
-      const { data } = await axios.post("/users/manager/signup", values);
-      console.log(data);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
-  async function handleEmployee(values) {
-    try {
-      const { data } = await axios.post("/users/employee/signup", values);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function signOut() {
+  async function handleLogout() {
     try {
       const { data } = await axios.get("/users/logout");
       window.location.href = "/login";
@@ -73,11 +55,10 @@ function AuthProvider({ children }) {
 
   const value = {
     isAuth,
-    handleLogin,
-    handleEmployee,
-    handleManager,
     user,
-    signOut,
+    handleLogin,
+
+    handleLogout,
   };
 
   return (

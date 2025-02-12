@@ -1,37 +1,50 @@
-import axios from "axios";
 import { createContext, useState } from "react";
+import axios from "axios";
 import { showErrorToast, showSuccessToast } from "../../lib/Toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 export const ActionContext = createContext();
 
 function ActionProvider({ children }) {
-  const [toggleRequest, setToggleRequest] = useState(false);
-  const [emp, setEmp] = useState(null);
-  const [man, setMan] = useState(null);
-  const [iss, setIss] = useState(null);
-
-  const queryClient = useQueryClient();
-
-  function handleEditEmployee(employee) {
-    document.getElementById("employee_modal").showModal();
-    setEmp(employee);
-  }
+  const [manager, setManagerData] = useState(null);
+  const [employee, setEmployee] = useState(null);
+  const [activeIssue, setActiveIssue] = useState(null);
 
   function handleAddEmployee() {
     document.getElementById("employee_modal").showModal();
-    setEmp(null);
+    setEmployee(null);
   }
 
-  function handleEditManager(manager) {
-    document.getElementById("manager_modal").showModal();
-    setMan(manager);
+  function handleEditEmployee(employee) {
+    document.getElementById("employee_modal").showModal();
+    setEmployee(employee);
   }
 
   function handleAddManager() {
     document.getElementById("manager_modal").showModal();
-    setMan(null);
+    setManagerData(null);
   }
 
+  function handleEditManager(manager) {
+    document.getElementById("manager_modal").showModal();
+    setManagerData(manager);
+  }
+
+  function handleAddIssue() {
+    document.getElementById("issue_modal").showModal();
+    setActiveIssue(null);
+  }
+
+  function handleEditIssue(issue) {
+    document.getElementById("issue_modal").showModal();
+    setActiveIssue(issue);
+  }
+
+  function handleAddProfession() {
+    document.getElementById("profession_modal").showModal();
+    setManagerData(null); //TODO why we need this
+  }
+
+  //   function for XL export
   async function getAllDetails(url) {
     try {
       const { data } = (await axios.get(url)).data;
@@ -44,48 +57,19 @@ function ActionProvider({ children }) {
     }
   }
 
-  function handleAddIssue() {
-    document.getElementById("issue_modal").showModal();
-    setIss(null);
-  }
-
-  function handleEditIssue(issue) {
-    document.getElementById("issue_modal").showModal();
-    setIss(issue);
-  }
-
-  function handleAddProfession() {
-    document.getElementById("profession_modal").showModal();
-    setMan(null);
-  }
-
-  const { mutate: mutatePutInHistory } = useMutation({
-    //
-    mutationKey: ["put_in_history"],
-    mutationFn: async (id) =>
-      await axios.post(`issues/deleteAndArchiveIssue/${id}`),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["get_issues"] });
-    },
-    onError: () => {},
-  });
-
   const value = {
-    toggleRequest,
-    setToggleRequest,
-    emp,
+    manager,
+    employee,
+    activeIssue,
+    setActiveIssue,
+    handleAddEmployee,
     handleEditEmployee,
-    handleEditManager,
-    man,
     handleAddManager,
-    getAllDetails,
+    handleEditManager,
     handleAddIssue,
     handleEditIssue,
-    iss,
-    setIss,
     handleAddProfession,
-    handleAddEmployee,
-    mutatePutInHistory,
+    getAllDetails,
   };
 
   return (
