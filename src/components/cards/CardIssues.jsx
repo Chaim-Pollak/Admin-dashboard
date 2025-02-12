@@ -11,6 +11,7 @@ import ExportButton from "../ui/ExportButton.jsx";
 import SearchInput from "../ui/SearchInput";
 import AddButton from "../ui/AddButton.jsx";
 import WaveLoader from "../ui/WaveLoader.jsx";
+import TimeAgo from "../../lib/TimeAgo.jsx";
 
 function CardIssues() {
   const { getAllDetails, handleEditIssue, mutatePutInHistory, handleAddIssue } =
@@ -75,6 +76,12 @@ function CardIssues() {
 
     exportToXL(prepareDataForExcel, "IssuesSheet");
   }
+
+  const [updatedTime, setUpdatedTime] = useState("");
+
+  const handleTimeUpdate = (time) => {
+    setUpdatedTime(time);
+  };
 
   return (
     <div className="w-[80%] mx-auto mt-5 p-4 shadow-md rounded-xl mb-6 animate-slide-down">
@@ -306,6 +313,11 @@ function CardIssues() {
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
+
+                    <TimeAgo
+                      date={issue.createdAt}
+                      onTimeUpdate={handleTimeUpdate}
+                    />
                   </div>
                 </div>
 
