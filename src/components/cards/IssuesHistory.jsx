@@ -1,15 +1,12 @@
-import React, { useContext, useState } from "react";
-// import ExportButton from "../ui/ExportButton.jsx";
-// import { exportToXL } from "../../lib";
+import React, { useState } from "react";
 import WaveLoader from "../ui/WaveLoader";
-
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 function IssuesHistory() {
-  const { data, isLoading, error, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_all_histories"],
-    queryFn: async () => await axios.get("/issues/getallhistories"),
+    queryFn: async () => await axios.get("/issues/getAllHistories"),
     select: (data) => data.data.data,
   });
 
@@ -38,9 +35,14 @@ function IssuesHistory() {
             <WaveLoader />
           </div>
         )}
-        {isError && <div>{error}</div>}
+
+        {isError && { error }}
+
         {data?.map((history) => (
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-3xl shadow-xl w-80">
+          <div
+            key={history._id}
+            className="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-3xl shadow-xl w-80"
+          >
             {/* Location Pills */}
             <div className="flex space-x-2 mb-3">
               <div className="bg-white px-3 py-1.5 rounded-xl shadow-md flex items-center space-x-2 border border-amber-100">
@@ -107,6 +109,7 @@ function IssuesHistory() {
                 </div>
               </div>
             </div>
+
             {/* Image Carousel */}
             <div className="relative h-48 mb-4 rounded-xl overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
@@ -166,8 +169,8 @@ function IssuesHistory() {
                 {history.issue_images.length}
               </div>
             </div>
-            {/* Issue Details */}
 
+            {/* Issue Details */}
             <div className="bg-white rounded-xl p-4 shadow-md border border-amber-100 h-[180px] flex flex-col">
               <div className="flex items-center justify-between mb-3">
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium border border-yellow-200">
