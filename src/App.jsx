@@ -73,7 +73,7 @@ function App() {
           />
 
           {/* Private Routes */}
-          {isAuth && user.permission === "Admin" && (
+          {isAuth && user?.permission === "Admin" && (
             <Route
               path="allemployees"
               lazy={async () => ({

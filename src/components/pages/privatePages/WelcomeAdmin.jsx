@@ -40,12 +40,12 @@ function WelcomeAdmin() {
           {/* Main Welcome Text */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-transparent bg-clip-text mb-4">
-              Welcome {user.manager_name}
+              Welcome {user?.manager_name}
             </h1>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto rounded-full mb-4" />
             <p className="text-amber-700 text-lg">
               Your command center for managing everything as
-              <span className="font-bold"> {user.permission}</span>.
+              <span className="font-bold"> {user?.permission}</span>.
             </p>
           </div>
 
