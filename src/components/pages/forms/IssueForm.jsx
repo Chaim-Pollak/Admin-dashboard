@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ActionContext } from "../../contexts/ActionContext";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import SelectBox from "./SelectBox";
-import { useNavigate } from "react-router-dom";
-import { X } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ActionContext } from "../../contexts/ActionContext";
+import ProfessionSelectBox from "./ProfessionSelectBox";
 import { showSuccessToast, showErrorToast } from "../../../lib/Toast";
 import CloseButton from "../../ui/CloseButton";
+import { X } from "lucide-react";
 
 const initialValues = {
   issue_building: "",
@@ -17,42 +17,40 @@ const initialValues = {
 };
 
 function IssueForm() {
-  const { iss, setIss } = useContext(ActionContext);
+  const { activeIssue, setActiveIssue } = useContext(ActionContext);
   const [values, setValues] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  const { mutate } = useMutation({
-    mutationKey: ["edit issue"],
-    mutationFn: async ({ values, id }) =>
-      await axios.put(`issues/update/${id}`, values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get_issues"] });
-      setIss(null);
-      document.getElementById("issue_modal").close();
-      showSuccessToast("Issue updated successfully");
-    },
-    onError: () => {
-      showErrorToast("Failed to update issue");
-    },
-  });
+  //   const navigate = useNavigate();
 
   const { mutate: addMutate } = useMutation({
     mutationKey: ["add_issue"],
     mutationFn: async (formData) =>
       await axios.post("/issues/addIssues", formData),
     onSuccess: (data) => {
-      console.log("Issue added successfully:", data);
       queryClient.invalidateQueries({ queryKey: ["get_issues"] });
       setUploadedFiles([]);
       setValues(initialValues);
-      // setIss(null);
-      document.getElementById("issue_modal").close();
-      // navigate("/allissues");
-      showSuccessToast("Issue added successfully");
-    },
 
+      document.getElementById("issue_modal").close();
+      showSuccessToast(data.data.message);
+    },
+    onError: (error) => {
+      showErrorToast(error.response.data.message);
+    },
+  });
+
+  const { mutate: editMutate } = useMutation({
+    mutationKey: ["edit issue"],
+    mutationFn: async ({ values, id }) =>
+      await axios.put(`issues/update/${id}`, values),
+    onSuccess: (msg) => {
+      queryClient.invalidateQueries({ queryKey: ["get_issues"] });
+      setActiveIssue(null);
+
+      document.getElementById("issue_modal").close();
+      showSuccessToast(msg.data.message);
+    },
     onError: (error) => {
       showErrorToast(error.response.data.message);
     },
@@ -63,7 +61,7 @@ function IssueForm() {
     setValues({ ...values, [name]: value });
   }
 
-  function handlesubmit(e) {
+  function handleSubmit(e) {
     try {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
@@ -71,17 +69,19 @@ function IssueForm() {
       uploadedFiles.forEach(({ file }) => {
         formData.append("issue_images", file);
       });
-      iss ? mutate({ values, id: values?._id }) : addMutate(formData);
+      activeIssue
+        ? editMutate({ values, id: values?._id })
+        : addMutate(formData);
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
-    if (!iss) return setValues(initialValues);
+    if (!activeIssue) return setValues(initialValues);
 
-    setValues({ ...iss });
-  }, [iss]);
+    setValues({ ...activeIssue });
+  }, [activeIssue]);
 
   const removeFile = (fileId) => {
     setUploadedFiles((prev) => prev.filter((file) => file.id !== fileId));
@@ -102,12 +102,12 @@ function IssueForm() {
   return (
     <div className=" w-full p-4 flex items-center justify-center ">
       <div className="bg-orange-50 p-4 md:p-6 rounded-2xl shadow-lg w-full max-w-4xl h-[85vh] flex flex-col">
-        {/* כותרת */}
+        {/* head */}
         <h2 className="text-xl md:text-2xl font-bold text-amber-900 mb-2 md:mb-2 text-center">
-          {!iss ? "Add Issue" : "Edit Issue"}
+          {!activeIssue ? "Add Issue" : "Edit Issue"}
         </h2>
 
-        <form onSubmit={handlesubmit} className="flex-1 overflow-y-aut">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-aut">
           <div className="space-y-4 bg-white p-4 md:p-6 rounded-xl shadow-sm">
             {/* Location and Basic Details Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -125,7 +125,6 @@ function IssueForm() {
                   value={values?.issue_building}
                   onChange={handleChange}
                   required
-                  // disabled={!!iss}
                 >
                   <option value="">Select Building</option>
                   <option value="A">Building A</option>
@@ -148,7 +147,6 @@ function IssueForm() {
                   value={values?.issue_floor}
                   onChange={handleChange}
                   required
-                  // disabled={!!iss}
                 >
                   <option value="">Select Floor</option>
                   <option value="1">1st Floor</option>
@@ -173,7 +171,6 @@ function IssueForm() {
                   value={values?.issue_apartment}
                   onChange={handleChange}
                   required
-                  // disabled={!!iss}
                   placeholder="Enter apartment number"
                   className="w-full rounded-lg border-2 border-amber-200 bg-amber-50 py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                 />
@@ -186,7 +183,7 @@ function IssueForm() {
                 >
                   Profession
                 </label>
-                <SelectBox
+                <ProfessionSelectBox
                   value={
                     values?.issue_profession._id || values?.issue_profession
                   }
@@ -216,7 +213,7 @@ function IssueForm() {
                   <option value="high">High</option>
                 </select>
               </div>
-              {iss && (
+              {activeIssue && (
                 <div>
                   <label
                     className="block text-sm font-medium text-amber-700 mb-1"
@@ -261,7 +258,7 @@ function IssueForm() {
             </div>
 
             {/* Image Upload with Fixed Height */}
-            {!iss && (
+            {!activeIssue && (
               <div>
                 <label className=" block text-sm font-medium text-amber-700 mb-1">
                   Add Images
@@ -326,7 +323,9 @@ function IssueForm() {
               <CloseButton
                 modalId={"issue_modal"}
                 onCancel={() => {
-                  !iss ? setValues(initialValues) : setIss(null);
+                  !activeIssue
+                    ? setValues(initialValues)
+                    : setActiveIssue(null);
                 }}
               />
 
@@ -336,10 +335,8 @@ function IssueForm() {
               rounded-xl hover:bg-amber-700 focus:outline-none
                focus:ring-2 focus:ring-amber-500 focus:ring-offset-2
                 transition-colors duration-200"
-                // disabled={mutation.isLoading}
               >
-                {!iss ? "Add Issue" : "Edit Issue"}
-                {/* {mutation.isLoading ? "Submitting..." : "Submit Issue"} */}
+                {!activeIssue ? "Add Issue" : "Edit Issue"}
               </button>
             </div>
           </div>

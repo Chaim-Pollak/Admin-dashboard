@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import axios from "axios";
 
-function SelectBox({ handleChange, id, value }) {
+function ProfessionSelectBox({ handleChange, id, value }) {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_professions"],
     queryFn: async () => await axios.get("/professions/getAllProfessions"),
@@ -35,4 +35,4 @@ function SelectBox({ handleChange, id, value }) {
   );
 }
 
-export default SelectBox;
+export default ProfessionSelectBox;

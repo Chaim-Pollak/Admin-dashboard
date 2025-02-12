@@ -1,34 +1,32 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { showSuccessToast, showErrorToast } from "../../../lib/Toast";
-import InputField from "../../ui/InputField";
 import CloseButton from "../../ui/CloseButton";
 
 function ProfessionForm() {
   const [profession_name, setProfession_name] = useState("");
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: addMutate } = useMutation({
     mutationKey: ["add_profession"],
     mutationFn: async (formData) =>
       await axios.post("/professions/addProfession", formData),
-    onSuccess: () => {
+    onSuccess: (msg) => {
       queryClient.invalidateQueries({ queryKey: ["get_professions"] });
       setProfession_name("");
       document.getElementById("profession_modal").close();
-      showSuccessToast("Profession added successfully");
+      showSuccessToast(msg.data.message);
     },
     onError: (error) => {
-      document.getElementById("profession_modal").close();
-      showErrorToast("failed adding profession");
+      showErrorToast(error.response.data.error);
     },
   });
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    mutate({ profession_name });
-  };
+    addMutate({ profession_name });
+  }
 
   return (
     <div className="bg-orange-50 p-6 rounded-2xl shadow-lg max-w-2xl mx-auto">
@@ -39,17 +37,27 @@ function ProfessionForm() {
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="bg-white p-6 rounded-xl shadow-sm space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField
-              label="Profession Name"
-              name="profession_name"
-              type="text"
-              placeholder="Enter Profession"
-              value={profession_name}
-              onChange={(e) => setProfession_name(e.target.value)}
-            />
+            <div>
+              <label
+                className="block text-sm font-medium text-amber-700 mb-1"
+                htmlFor="profession_name"
+              >
+                Profession Name
+              </label>
+              <input
+                name="profession_name"
+                id="profession_name"
+                type="text"
+                className="w-full rounded-xl border-2 border-amber-200 bg-amber-50 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                placeholder="Enter Profession"
+                value={profession_name}
+                onChange={(e) => setProfession_name(e.target.value)}
+              />
+            </div>
           </div>
         </div>
 
+        {/* submit */}
         <div className="flex justify-end space-x-4">
           <CloseButton
             modalId={"profession_modal"}
