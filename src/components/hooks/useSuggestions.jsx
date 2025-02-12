@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { debounce } from "../../lib/Index";
+import { debounce } from "../../lib/index";
 
 const useSuggestions = (url) => {
   const [searchInput, setSearchInput] = useState("");

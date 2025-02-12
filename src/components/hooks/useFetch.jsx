@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+// it's not used in any code
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { ActionContext } from "../contexts/ActionContext";
-// import { ActionContext } from "../../contexts/ActionContext";
 
 const useFetch = (url) => {
   const [data, setData] = useState([]);
