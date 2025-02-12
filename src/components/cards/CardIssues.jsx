@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useSuggestions from "../hooks/useSuggestions";
 import CardSelected from "./CardSelected";
 import { ActionContext } from "../contexts/ActionContext.jsx";
-import { exportToXL } from "../../lib/Index.jsx";
+import { exportToXL } from "../../lib/index.jsx";
 import SelectBox from "../pages/forms/SelectBox.jsx";
 import Pagination from "../ui/Pagination.jsx";
 import ExportButton from "../ui/ExportButton.jsx";
@@ -14,7 +14,7 @@ import WaveLoader from "../ui/WaveLoader.jsx";
 import TimeAgo from "../../lib/TimeAgo.jsx";
 
 function CardIssues() {
-  const { getAllDetails, handleEditIssue, mutatePutInHistory, handleAddIssue } =
+  const { getAllDetails, handleEditIssue, handleAddIssue } =
     useContext(ActionContext);
 
   const [page, setPage] = useState(1);
@@ -82,6 +82,19 @@ function CardIssues() {
   const handleTimeUpdate = (time) => {
     setUpdatedTime(time);
   };
+
+  // BUG It gets an error return but it works
+  const { mutate: mutatePutInHistory } = useMutation({
+    mutationKey: ["put_in_history"],
+    mutationFn: async (id) =>
+      await axios.post(`issues/deleteAndArchiveIssue/${id}`),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["get_issues"] });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
     <div className="w-[80%] mx-auto mt-5 p-4 shadow-md rounded-xl mb-6 animate-slide-down">
