@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import WaveLoader from "../ui/WaveLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import ErrorPage from "../ui/ErrorPage";
 
 function IssuesHistory() {
   const { data, isLoading, isError, error } = useQuery({
@@ -36,7 +37,7 @@ function IssuesHistory() {
           </div>
         )}
 
-        {isError && { error }}
+        {isError && <ErrorPage />}
 
         {data?.map((history) => (
           <div
