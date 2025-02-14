@@ -15,7 +15,7 @@ const useSuggestions = (url) => {
             cancelToken: source.token,
           }
         );
-        setSuggestions(data.result);
+        setSuggestions(data.data);
       } else setSuggestions([]);
     } catch (error) {
       if (axios.isCancel(error)) {

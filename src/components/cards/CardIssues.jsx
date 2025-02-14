@@ -5,7 +5,7 @@ import useSuggestions from "../hooks/useSuggestions";
 import CardSelected from "./CardSelected";
 import { ActionContext } from "../contexts/ActionContext.jsx";
 import { exportToXL } from "../../lib/index.jsx";
-import SelectBox from "../pages/forms/SelectBox.jsx";
+import ProfessionSelectBox from "../pages/forms/ProfessionSelectBox.jsx";
 import Pagination from "../ui/Pagination.jsx";
 import ExportButton from "../ui/ExportButton.jsx";
 import SearchInput from "../ui/SearchInput";
@@ -152,7 +152,7 @@ function CardIssues() {
         </div>
 
         <div>
-          <SelectBox
+          <ProfessionSelectBox
             value={professionFilter || "all"}
             handleChange={(e) => setProfessionFilter(e.target.value)}
             onChange={(value) => setProfessionFilter(value.profession_name)}

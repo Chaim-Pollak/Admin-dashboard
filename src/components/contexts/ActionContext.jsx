@@ -1,32 +1,31 @@
 import { createContext, useState } from "react";
 import axios from "axios";
-import { showErrorToast, showSuccessToast } from "../../lib/Toast";
 
 export const ActionContext = createContext();
 
 function ActionProvider({ children }) {
-  const [manager, setManagerData] = useState(null);
-  const [employee, setEmployee] = useState(null);
+  const [manager, setActiveManager] = useState(null);
+  const [employee, setActiveEmployee] = useState(null);
   const [activeIssue, setActiveIssue] = useState(null);
 
   function handleAddEmployee() {
     document.getElementById("employee_modal").showModal();
-    setEmployee(null);
+    setActiveEmployee(null);
   }
 
   function handleEditEmployee(employee) {
     document.getElementById("employee_modal").showModal();
-    setEmployee(employee);
+    setActiveEmployee(employee);
   }
 
   function handleAddManager() {
     document.getElementById("manager_modal").showModal();
-    setManagerData(null);
+    setActiveManager(null);
   }
 
   function handleEditManager(manager) {
     document.getElementById("manager_modal").showModal();
-    setManagerData(manager);
+    setActiveManager(manager);
   }
 
   function handleAddIssue() {
@@ -41,7 +40,7 @@ function ActionProvider({ children }) {
 
   function handleAddProfession() {
     document.getElementById("profession_modal").showModal();
-    setManagerData(null); //TODO why we need this
+    setActiveManager(null); //TODO why we need this
   }
 
   //   function for XL export
