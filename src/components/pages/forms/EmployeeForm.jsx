@@ -29,7 +29,7 @@ function EmployeeForm() {
     mutationFn: async (values) =>
       await axios.post(`users/employee/signup`, values),
     onSuccess: (msg) => {
-      queryClient.invalidateQueries({ queryKey: ["get_employee"] });
+      queryClient.invalidateQueries({ queryKey: ["get_employees"] });
       document.getElementById("employee_modal").close();
       setValues(initialValues);
       showSuccessToast(msg.data.message);

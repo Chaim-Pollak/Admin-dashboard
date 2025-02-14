@@ -21,14 +21,13 @@ function IssueForm() {
   const [values, setValues] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const queryClient = useQueryClient();
-  //   const navigate = useNavigate();
 
   const { mutate: addMutate } = useMutation({
     mutationKey: ["add_issue"],
     mutationFn: async (formData) =>
       await axios.post("/issues/addIssues", formData),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["get_issues"] });
+      queryClient.invalidateQueries({ queryKey: ["issues"] });
       setUploadedFiles([]);
       setValues(initialValues);
 
