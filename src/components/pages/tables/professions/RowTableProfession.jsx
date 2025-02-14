@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react";
 import React from "react";
 
-function ProfessionsTableRow({ mutate, profession }) {
+function RowTableProfession({ mutate, profession }) {
   const { _id, profession_name } = profession;
 
   return (
@@ -22,4 +22,4 @@ function ProfessionsTableRow({ mutate, profession }) {
   );
 }
 
-export default ProfessionsTableRow;
+export default RowTableProfession;

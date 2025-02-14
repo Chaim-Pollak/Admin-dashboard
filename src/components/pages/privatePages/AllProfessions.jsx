@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import ProfessionsTable from "../tables/professions/ProfessionsTable";
+import axios from "axios";
+import HeaderTableProfessions from "../tables/professions/HeaderTableProfessions";
 import Pagination from "../../ui/Pagination";
 import WaveLoader from "../../ui/WaveLoader";
+import EmptyList from "../../ui/EmptyList";
 
 function AllProfessions() {
   const [page, setPage] = useState(1);
@@ -15,17 +16,10 @@ function AllProfessions() {
     queryKey: ["get_professions", page],
     queryFn: async () => (await axios.get(url)).data,
     select: (data) => ({
-      AllProfession: data.data,
+      allProfession: data.data,
       count: data.count,
     }),
   });
-
-  useEffect(() => {
-    if (data) {
-      console.log("All Professions:", data.AllProfession);
-      console.log("Count:", data.count);
-    }
-  }, [data]);
 
   return (
     <div className="w-[90%] mx-auto">
@@ -36,12 +30,17 @@ function AllProfessions() {
       )}
 
       {isError && <div>{error}</div>}
-      {data && !data?.AllProfession.length && (
-        <p>No Categories Yet, please add Categories</p>
+
+      {data && !data?.allProfession.length && (
+        <p>
+          <EmptyList rule={"Profession"} />
+        </p>
       )}
-      {data && data?.AllProfession.length && !isLoading && (
-        <ProfessionsTable professions={data.AllProfession} />
+
+      {data && data?.allProfession.length && !isLoading && (
+        <HeaderTableProfessions professions={data.allProfession} />
       )}
+
       {data?.count > limit && (
         <Pagination listLength={data?.count} limit={limit} setPage={setPage} />
       )}

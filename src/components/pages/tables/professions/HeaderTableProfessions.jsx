@@ -1,25 +1,24 @@
 import React, { useContext } from "react";
-import ProfessionsTableRow from "./ProfessionsTableRow";
+import RowTableProfession from "./RowTableProfession";
 import { ActionContext } from "../../../contexts/ActionContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import AddButton from "../../../ui/AddButton";
 import { showSuccessToast, showErrorToast } from "../../../../lib/Toast";
 
-function ProfessionsTable({ professions }) {
-  // console.log(professions);
+function HeaderTableProfessions({ professions }) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationKey: "delete_profession",
     mutationFn: async (id) =>
       axios.delete(`/professions/deleteProfession/${id}`),
-    onSuccess: () => {
+    onSuccess: (msg) => {
       queryClient.invalidateQueries({ queryKey: ["get_professions"] });
-      showSuccessToast("Profession deleted successfully");
+      showSuccessToast(msg.data.message);
     },
     onError: (error) => {
-      showErrorToast("failed deleting profession");
+      showErrorToast(error.response.data.message);
     },
   });
 
@@ -51,9 +50,12 @@ function ProfessionsTable({ professions }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-amber-100">
-            {/* Row 1 */}
             {professions.map((profession) => (
-              <ProfessionsTableRow profession={profession} mutate={mutate} />
+              <RowTableProfession
+                key={profession._id}
+                profession={profession}
+                mutate={mutate}
+              />
             ))}
           </tbody>
         </table>
@@ -62,4 +64,4 @@ function ProfessionsTable({ professions }) {
   );
 }
 
-export default ProfessionsTable;
+export default HeaderTableProfessions;
