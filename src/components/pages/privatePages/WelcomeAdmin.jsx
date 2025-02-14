@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
 import WaveLoader from "../../ui/WaveLoader";
 
 function WelcomeAdmin() {
@@ -10,14 +10,13 @@ function WelcomeAdmin() {
   const url = `/general/getDocumentCounts`;
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["get_alllength"],
+    queryKey: ["get_allLength"],
     queryFn: async () => (await axios.get(url)).data,
     select: (data) => ({
       countIssue: data.countIssue,
       countUsers: data.countUsers,
     }),
   });
-  console.log(data);
 
   return (
     <div className="w-full">
@@ -37,7 +36,7 @@ function WelcomeAdmin() {
             ))}
           </div>
 
-          {/* Main Welcome Text */}
+          {/* Main Welcome */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-transparent bg-clip-text mb-4">
               Welcome {user?.manager_name}
@@ -49,7 +48,7 @@ function WelcomeAdmin() {
             </p>
           </div>
 
-          {/* Quick Stats Grid */}
+          {/* Quick Stats */}
           <div className="grid grid-cols-3 gap-6 mb-8 text-center">
             <div className="bg-white/80 p-4 rounded-xl shadow-sm backdrop-blur-sm">
               <div className="text-amber-600 text-sm font-medium mb-1">
@@ -75,7 +74,7 @@ function WelcomeAdmin() {
             </div>
           </div>
 
-          {/* Quick Actions */}
+          {/* Quick Actions //TODO does not active */}
           <div className="flex justify-center space-x-4">
             <button className="px-6 py-3 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
               View Dashboard
