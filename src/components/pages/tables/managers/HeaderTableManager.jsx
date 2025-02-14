@@ -1,22 +1,22 @@
 import React from "react";
-import TableRow from "../managers/TableRow";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import RowTableManager from "./RowTableManager";
 import { SortDesc } from "lucide-react";
 import { showErrorToast, showSuccessToast } from "../../../../lib/Toast";
 
-function ManagersTable({ managers }) {
+function HeaderTableManager({ managers }) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationKey: "delete_manager",
     mutationFn: async (id) => axios.delete(`users/manager/delete/${id}`),
-    onSuccess: (data) => {
+    onSuccess: (msg) => {
       queryClient.invalidateQueries({ queryKey: ["get_managers"] });
-      showSuccessToast("Manager deleted successfully");
+      showSuccessToast(msg.data.message);
     },
     onError: (error) => {
-      showErrorToast("failed deleting manager");
+      showErrorToast(error.response.data.message);
     },
   });
 
@@ -44,9 +44,12 @@ function ManagersTable({ managers }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-amber-100">
-            {/* Row 1 */}
             {managers.map((manager) => (
-              <TableRow key={manager._id} manager={manager} mutate={mutate} />
+              <RowTableManager
+                key={manager._id}
+                manager={manager}
+                mutate={mutate}
+              />
             ))}
           </tbody>
         </table>
@@ -55,4 +58,4 @@ function ManagersTable({ managers }) {
   );
 }
 
-export default ManagersTable;
+export default HeaderTableManager;

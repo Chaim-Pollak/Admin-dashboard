@@ -1,37 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
-import Header from "../../ui/Header";
-import axios from "axios";
-import ManagersTable from "../tables/managers/ManagerTable";
+import { useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import SearchInput from "../../ui/SearchInput.jsx";
-import { debounce, exportToXL } from "../../../lib";
-import Pagination from "../../ui/Pagination";
-import useSuggestions from "../../hooks/useSuggestions";
+import axios from "axios";
 import { ActionContext } from "../../contexts/ActionContext";
-import Button from "../../ui/AddButton.jsx";
-import ExportButton from "../../ui/ExportButton.jsx";
-import { Filter, ChevronDown, Plus } from "lucide-react";
+import useSuggestions from "../../hooks/useSuggestions";
+import { exportToXL } from "../../../lib";
+import HeaderTableManager from "../tables/managers/HeaderTableManager.jsx";
+import Header from "../../ui/Header";
+import Pagination from "../../ui/Pagination";
 import WaveLoader from "../../ui/WaveLoader";
+import EmptyList from "../../ui/EmptyList.jsx";
 
 function AllManagers() {
-  const { handleAddManager, getAllDetails } = useContext(ActionContext);
-
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
 
+  const { handleAddManager, getAllDetails, handleEditManager } =
+    useContext(ActionContext);
+
   const url = `/users/manager/getAllManagers?page=${page}&limit=${limit}`;
+
+  const [suggestions, setSearchInput] = useSuggestions("users");
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_managers", page],
     queryFn: async () => (await axios.get(url)).data,
     select: (data) => ({
-      AllManagers: data.data,
+      allManagers: data.data,
       count: data.count,
     }),
   });
-
-  const [suggestions, setSearchInput] = useSuggestions("users");
-  const { handleEditManager } = useContext(ActionContext);
 
   async function downloadXl() {
     const result = await getAllDetails("/users/manager/getAllManagers");
@@ -53,13 +50,13 @@ function AllManagers() {
   }
 
   return (
-    <div className="w-[80%] mx-auto mt-5 p-4 shadow-md rounded-xl mb-6 animate-slide-down">
+    <div className="w-[80%] mx-auto mt-5 p-4 rounded-xl mb-6 animate-slide-down">
       <Header
         title="Manager Management"
         downloadFn={downloadXl}
         setSearchInput={setSearchInput}
         suggestions={suggestions}
-        suggestionKey={"manager_name"}
+        suggestionKey={"manager_email"}
         onClick={(current) => handleEditManager({ ...current, bySearch: true })}
         addBtnName="Add New Manager"
         onAdd={handleAddManager}
@@ -72,12 +69,17 @@ function AllManagers() {
       )}
 
       {isError && <div>{error}</div>}
-      {data && !data.AllManagers.length && (
-        <p>No Categories Yet, please add Categories</p>
+
+      {data && !data.allManagers.length && (
+        <p>
+          <EmptyList rule={"Manager"} />
+        </p>
       )}
-      {data && data?.AllManagers.length && !isLoading && (
-        <ManagersTable managers={data.AllManagers} />
+
+      {data && data?.allManagers.length && !isLoading && (
+        <HeaderTableManager managers={data.allManagers} />
       )}
+
       {data?.count > limit && (
         <Pagination listLength={data?.count} limit={limit} setPage={setPage} />
       )}
