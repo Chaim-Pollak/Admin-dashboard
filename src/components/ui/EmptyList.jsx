@@ -1,6 +1,6 @@
 import React from "react";
 
-function NotEmployees() {
+function EmptyList({ rule }) {
   return (
     <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-lg p-8 mt-8">
       {/* Empty State Illustration */}
@@ -22,15 +22,18 @@ function NotEmployees() {
 
       {/* Message */}
       <h2 className="text-2xl font-bold text-amber-900 mb-2">
-        No Employees Found
+        No {rule}s Found
       </h2>
       <p className="text-amber-600 text-center mb-8 max-w-md">
-        It looks like there are no employees in the company yet. Start building
-        your team by adding your first employee.
+        It looks like there are no {rule}s in the company yet. Start building
+        your team by adding your first {rule}.
       </p>
 
-      {/* Add Employee Button */}
-      <button className="flex items-center space-x-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors duration-200 shadow-md hover:shadow-lg">
+      {/* Add Button */}
+      <button
+        className="flex items-center space-x-2 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition-colors duration-200 shadow-md hover:shadow-lg cursor-not-allowed"
+        disabled //disabled
+      >
         <svg
           className="w-5 h-5"
           fill="none"
@@ -44,10 +47,10 @@ function NotEmployees() {
             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
           />
         </svg>
-        <span>Add First Employee</span>
+        <span>Add First {rule}</span>
       </button>
     </div>
   );
 }
 
-export default NotEmployees;
+export default EmptyList;
