@@ -1,24 +1,25 @@
 import React from "react";
-import TableRow from "./TableRow";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import RowTableEmployee from "./RowTableEmployee";
 import { SortDesc } from "lucide-react";
 import { showErrorToast, showSuccessToast } from "../../../../lib/Toast";
 
-function EmployeesTable({ employees }) {
+function HeaderTableEmployee({ employees }) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationKey: "delete_employee",
     mutationFn: async (id) => axios.delete(`users/employee/delete/${id}`),
-    onSuccess: (data) => {
+    onSuccess: (msg) => {
       queryClient.invalidateQueries({ queryKey: ["get_employees"] });
-      showSuccessToast("Employee deleted successfully");
+      showSuccessToast(msg.data.message);
     },
     onError: (error) => {
-      showErrorToast("Failed to delete employee");
+      showErrorToast(error.response.data.message);
     },
   });
+
   return (
     <div className="bg-white  rounded-xl shadow-lg overflow-hidden">
       <div className="overflow-x-auto">
@@ -40,15 +41,21 @@ function EmployeesTable({ employees }) {
               <th className="px-6 py-4 text-left text-amber-900 font-semibold">
                 PROFESSION
               </th>
+              <th className="px-6 py-4 text-left text-amber-900 font-semibold">
+                VALIDATE
+              </th>
               <th className="px-6 py-4 text-right text-amber-900 font-semibold">
                 ACTIONS
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-amber-100">
-            {/* Row 1 */}
             {employees.map((employee) => (
-              <TableRow employee={employee} mutate={mutate} />
+              <RowTableEmployee
+                key={employee._id}
+                employee={employee}
+                mutate={mutate}
+              />
             ))}
           </tbody>
         </table>
@@ -57,4 +64,4 @@ function EmployeesTable({ employees }) {
   );
 }
 
-export default EmployeesTable;
+export default HeaderTableEmployee;

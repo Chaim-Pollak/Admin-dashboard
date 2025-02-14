@@ -1,32 +1,25 @@
-import React, { useState, useContext } from "react";
-import EmployeesTable from "../tables/employees/EmployeesTable";
-import Header from "../../ui/Header";
-import NotEmployees from "./NotEmployees";
-import axios from "axios";
-import Pagination from "../../ui/Pagination";
+import { useState, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Button from "../../ui/AddButton.jsx";
-import SearchInput from "../../ui/SearchInput.jsx";
+import axios from "axios";
 import { ActionContext } from "../../contexts/ActionContext";
-import ExportButton from "../../ui/ExportButton.jsx";
-import { Filter, ChevronDown } from "lucide-react";
-import WaveLoader from "../../ui/WaveLoader";
+import useSuggestions from "../../hooks/useSuggestions.jsx";
 import { exportToXL } from "../../../lib";
+import HeaderTableEmployee from "../tables/employees/HeaderTableEmployee.jsx";
+import Header from "../../ui/Header";
+import Pagination from "../../ui/Pagination";
+import WaveLoader from "../../ui/WaveLoader";
+import EmptyList from "../../ui/EmptyList.jsx";
 
 function AllEmployees() {
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const openModal = () => setIsModalOpen(true);
-  // const closeModal = () => setIsModalOpen(false);
 
   const { handleAddEmployee, getAllDetails, handleEditEmployee } =
     useContext(ActionContext);
 
   const url = `/users/employee/getAllEmployees?page=${page}&limit=${limit}`;
-  const [searchInput, setSearchInput] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  // its still not working
+  const [suggestions, setSearchInput] = useSuggestions("users");
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get_employees", page],
@@ -39,7 +32,6 @@ function AllEmployees() {
 
   async function downloadXl() {
     const result = await getAllDetails("/users/employee/getAllEmployees");
-    console.log(result);
 
     if (!result) return;
 
@@ -58,7 +50,7 @@ function AllEmployees() {
   }
 
   return (
-    <div className="w-[80%] mx-auto mt-5 p-4 shadow-md rounded-xl mb-6 animate-slide-down">
+    <div className="w-[80%] mx-auto mt-5 p-4 rounded-xl mb-6 animate-slide-down">
       <Header
         title="Employee Management"
         downloadFn={downloadXl}
@@ -71,6 +63,7 @@ function AllEmployees() {
         addBtnName="Add New Employee"
         onAdd={handleAddEmployee}
       />
+
       {isLoading && (
         <div className="flex justify-center items-center h-[50vh]">
           <WaveLoader />
@@ -78,13 +71,17 @@ function AllEmployees() {
       )}
 
       {isError && <div>{error}</div>}
-      {data && !data.allEmployees?.length ? (
-        <NotEmployees />
-      ) : (
-        data &&
-        data.allEmployees?.length &&
-        !isLoading && <EmployeesTable employees={data.allEmployees} />
+
+      {data && !data.allEmployees.length && (
+        <p>
+          <EmptyList rule={"Employee"} />
+        </p>
       )}
+
+      {data && data.allEmployees.length && !isLoading && (
+        <HeaderTableEmployee employees={data.allEmployees} />
+      )}
+
       {data?.count > limit && (
         <Pagination listLength={data?.count} limit={limit} setPage={setPage} />
       )}
