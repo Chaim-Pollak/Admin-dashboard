@@ -1,7 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-function NavPublic() {
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <nav className="bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,7 +15,6 @@ function NavPublic() {
               className="text-2xl font-bold text-amber-700 w-44 "
             >
               <img
-                // width={}
                 src="https://res.cloudinary.com/dp08vd3cy/image/upload/v1733785970/logo_lhjqzl.jpg"
                 alt="image logo"
               />
@@ -40,12 +41,6 @@ function NavPublic() {
             >
               Contact Us
             </NavLink>
-            <NavLink
-              to={"/Offices"}
-              className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-xl font-medium transition-colors duration-200"
-            >
-              Offices
-            </NavLink>
           </div>
 
           {/* Right side - Login Button */}
@@ -57,7 +52,10 @@ function NavPublic() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
-            <button className="inline-flex items-center justify-center p-2 rounded-md text-amber-700 hover:text-amber-900 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500">
+            <button
+              className="inline-flex items-center justify-center p-2 rounded-md text-amber-700 hover:text-amber-900 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
               <span className="sr-only">Open main menu</span>
               {/* Menu icon */}
               <svg
@@ -77,9 +75,35 @@ function NavPublic() {
             </button>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        <div
+          className={`md:hidden ${isMobileMenuOpen ? "block" : "hidden"}`} // Show/hide menu based on state
+        >
+          <div className="flex flex-col items-center space-y-4 p-4">
+            <NavLink
+              to={"/LeadershipTeam"}
+              className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-xl font-medium transition-colors duration-200"
+            >
+              Owners
+            </NavLink>
+            <NavLink
+              to={"/AboutPage"}
+              className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-xl font-medium transition-colors duration-200"
+            >
+              About
+            </NavLink>
+            <NavLink
+              to={"/ContactPage"}
+              className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-xl font-medium transition-colors duration-200"
+            >
+              Contact Us
+            </NavLink>
+          </div>
+        </div>
       </div>
     </nav>
   );
-}
+};
 
-export default NavPublic;
+export default Navbar;
