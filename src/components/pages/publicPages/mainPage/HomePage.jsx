@@ -11,8 +11,9 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
-export default function HomePage() {
+function HomePage() {
   const [hoveredService, setHoveredService] = useState(null);
 
   const services = [
@@ -58,15 +59,18 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/10 to-transparent" />
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-transparent bg-clip-text mb-6">
-            Construction Site Issue Management
+            Construction Issue Manager
           </h1>
           <p className="text-xl md:text-2xl text-amber-800 mb-8">
             We're here to make your construction site issue management simple,
             fast, and efficient.
           </p>
-          <button className="px-8 py-4 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl text-lg">
-            Contact Us Now
-          </button>
+
+          <NavLink to={"/ContactPage"}>
+            <button className="px-8 py-4 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl text-lg">
+              Contact Us Now
+            </button>
+          </NavLink>
         </div>
       </div>
 
@@ -159,23 +163,28 @@ export default function HomePage() {
             <div className="flex flex-col items-center p-6 bg-white/80 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
               <Mail className="w-8 h-8 text-amber-600 mb-4" />
               <a
-                href="mailto:netanel63071@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=ch324id@gmail.com"
+                target="_blank"
                 className="text-amber-900 hover:text-amber-600"
               >
-                netanel63071@gmail.com
+                ch324id@gmail.com
               </a>
             </div>
             <div className="flex flex-col items-center p-6 bg-white/80 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
               <MapPin className="w-8 h-8 text-amber-600 mb-4" />
-              <p className="text-amber-900">Nationwide Service</p>
+              <p className="text-amber-900">Effective Solutions, Ashdod</p>
             </div>
           </div>
-          <button className="mt-12 px-8 py-4 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl text-lg inline-flex items-center">
-            Start Managing Your Issues Today
-            <ChevronRight className="w-5 h-5 ml-2" />
-          </button>
+          <NavLink to={"/ContactPage"}>
+            <button className="mt-12 px-8 py-4 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl text-lg inline-flex items-center">
+              Start Managing Your Issues Today
+              <ChevronRight className="w-5 h-5 ml-2" />
+            </button>
+          </NavLink>
         </div>
       </div>
     </div>
   );
 }
+
+export default HomePage;

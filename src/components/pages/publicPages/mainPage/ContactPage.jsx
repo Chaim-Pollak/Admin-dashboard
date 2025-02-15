@@ -1,28 +1,51 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { showSuccessToast, showErrorToast } from "../../../../lib/Toast";
 import { Mail, User, Phone, Send } from "lucide-react";
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
+function ContactForm() {
+  const navigate = useNavigate();
+
+  const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     description: "",
+  };
+
+  const [values, setValues] = useState(null);
+
+  const { mutate } = useMutation({
+    mutationKey: ["send_message"],
+    mutationFn: async (values) =>
+      await axios.post("/general/contactSendEmail", values),
+
+    onSuccess: (msg) => {
+      showSuccessToast(msg.data.message);
+      setValues(initialValues);
+      navigate("/");
+    },
+    onError: (error) => {
+      showErrorToast(error.response.data.error);
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  function handleChange(e) {
+    const { value, name } = e.target;
+    setValues({ ...values, [name]: value });
+  }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
-  };
+    try {
+      mutate(values);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 min-h-screen p-8">
@@ -38,10 +61,8 @@ export default function ContactForm() {
           </p>
         </div>
 
-        {/* Form */}
         <div className="bg-white/80 rounded-xl p-8 shadow-lg backdrop-blur-sm">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name Fields Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* First Name */}
               <div>
@@ -55,7 +76,7 @@ export default function ContactForm() {
                   <input
                     type="text"
                     name="firstName"
-                    value={formData.firstName}
+                    value={values?.firstName}
                     onChange={handleChange}
                     className="block w-full pl-10 pr-3 py-2.5 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white/60 backdrop-blur-sm transition-all duration-200"
                     placeholder="Enter first name"
@@ -76,7 +97,7 @@ export default function ContactForm() {
                   <input
                     type="text"
                     name="lastName"
-                    value={formData.lastName}
+                    value={values?.lastName}
                     onChange={handleChange}
                     className="block w-full pl-10 pr-3 py-2.5 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white/60 backdrop-blur-sm transition-all duration-200"
                     placeholder="Enter last name"
@@ -98,7 +119,7 @@ export default function ContactForm() {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
+                  value={values?.email}
                   onChange={handleChange}
                   className="block w-full pl-10 pr-3 py-2.5 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white/60 backdrop-blur-sm transition-all duration-200"
                   placeholder="Enter email address"
@@ -119,7 +140,7 @@ export default function ContactForm() {
                 <input
                   type="tel"
                   name="phone"
-                  value={formData.phone}
+                  value={values?.phone}
                   onChange={handleChange}
                   className="block w-full pl-10 pr-3 py-2.5 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white/60 backdrop-blur-sm transition-all duration-200"
                   placeholder="Enter phone number"
@@ -135,7 +156,7 @@ export default function ContactForm() {
               </label>
               <textarea
                 name="description"
-                value={formData.description}
+                value={values?.description}
                 onChange={handleChange}
                 rows="4"
                 className="block w-full px-3 py-2.5 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white/60 backdrop-blur-sm transition-all duration-200"
@@ -160,3 +181,5 @@ export default function ContactForm() {
     </div>
   );
 }
+
+export default ContactForm;

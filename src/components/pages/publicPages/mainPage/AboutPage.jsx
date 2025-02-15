@@ -9,51 +9,55 @@ import {
   PhoneCall,
   ArrowRight,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 function AboutPage() {
   const companyInfo = {
-    name: "TechVision Solutions",
-    slogan: "Transforming Tomorrow's Technology Today",
-    founded: "2019",
-    founders: ["Dr. Sarah Mitchell", "James Chen", "Dr. Michael Rodriguez"],
+    name: "Construction Issue Manager",
+    slogan: "Transforming Tomorrow's Issue Today",
+    founded: "2024",
+    founders: [
+      "Chaim Pollak",
+      "Netanel Malka",
+      "Simcha Kalikshtein",
+      "Daniel Biton",
+    ],
   };
 
   const sections = [
     {
       title: "Our Vision",
       icon: <Target className="w-8 h-8 mb-4 text-amber-600" />,
-      content: `At ${companyInfo.name}, we envision a world where technology seamlessly enhances human potential. 
-          Our mission is to deliver innovative solutions that transform businesses and improve lives. We're guided by 
-          our core values of innovation, integrity, and excellence in everything we do.`,
+      content: `At ${companyInfo.name}, we envision a world where technology seamlessly enhances efficiency in construction management. Our mission is to deliver innovative solutions that streamline issue tracking, improve communication, and drive efficiency on construction sites. We are guided by our core values of innovation, integrity, and excellence in everything we do.`,
     },
     {
       title: "Our Story",
       icon: <History className="w-8 h-8 mb-4 text-amber-600" />,
       content: `Founded in ${
         companyInfo.founded
-      } by ${companyInfo.founders.join(", ")}, our journey began with 
-          a shared vision to revolutionize the tech industry. Inspired by the rapid advancement of AI and sustainable 
-          technology, we set out to create solutions that would make a lasting impact on society.`,
+      } by ${companyInfo.founders.join(
+        ", "
+      )}, our journey began with a shared vision to revolutionize the way construction issues are tracked and resolved. Frustrated by inefficiencies in traditional methods, we set out to develop a platform that simplifies issue management, enhances collaboration, and ensures projects stay on schedule.`,
     },
     {
       title: "Our Expertise",
       icon: <Grid className="w-8 h-8 mb-4 text-amber-600" />,
       content:
-        "We specialize in AI-driven solutions, sustainable tech infrastructure, and digital transformation. Our innovative approach combines cutting-edge technology with practical business applications.",
+        "We specialize in construction site issue tracking, real-time reporting, and workflow automation. Our platform is designed to empower construction professionals with intuitive tools to log, monitor, and resolve site issues efficiently.",
     },
     {
       title: "Achievements",
       icon: <Award className="w-8 h-8 mb-4 text-amber-600" />,
       content:
-        "Recognized as a Top 10 Innovator in Green Tech (2023). Successfully deployed solutions for Fortune 500 companies. Awarded multiple patents for our groundbreaking AI algorithms.",
+        "Successfully implemented issue tracking solutions for major construction projects. Helped teams reduce issue resolution time by 80% (you can add a real number if available). Recognized for improving construction project efficiency through streamlined workflows.",
     },
   ];
 
   const competitiveAdvantages = [
-    "AI-First Approach",
-    "Sustainable Solutions",
-    "Rapid Implementation",
-    "24/7 Expert Support",
+    "Seamless Integration with existing construction management tools.",
+    "Real-Time Collaboration for field workers, and project managers.",
+    "Data-Driven Insights to improve issue resolution and prevent future delays.",
+    "User-Friendly Interface for fast adoption and minimal training.",
   ];
 
   return (
@@ -111,10 +115,10 @@ function AboutPage() {
           <Users className="w-12 h-12 text-amber-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-amber-700">Our Team</h2>
           <p className="text-amber-900 mt-4">
-            Our diverse team of experts brings together decades of experience in
-            AI, software development, and sustainable technology. Each member is
-            committed to delivering excellence and pushing the boundaries of
-            what's possible.
+            Our diverse team of experts brings together experience in
+            construction management, software development, and process
+            optimization. Each member is committed to delivering excellence and
+            improving efficiency in construction issue tracking.
           </p>
         </div>
       </div>
@@ -124,11 +128,13 @@ function AboutPage() {
         <h2 className="text-2xl font-bold text-amber-700 mb-6">
           Ready to Transform Your Business?
         </h2>
-        <button className="bg-amber-600 text-white px-8 py-4 rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center mx-auto">
-          <PhoneCall className="w-5 h-5 mr-2" />
-          Contact Us Today
-          <ArrowRight className="w-5 h-5 ml-2" />
-        </button>
+        <NavLink to={"/ContactPage"}>
+          <button className="bg-amber-600 text-white px-8 py-4 rounded-xl hover:bg-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center mx-auto">
+            <PhoneCall className="w-5 h-5 mr-2" />
+            Contact Us Today
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </button>
+        </NavLink>
       </div>
     </div>
   );
