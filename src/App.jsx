@@ -7,20 +7,19 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useContext } from "react";
+import { AuthContext } from "./components/contexts/AuthContext";
+
 import NavAdmin from "./components/section/NavAdmin";
 import NavPublic from "./components/section/NavPublic";
-import { AuthContext } from "./components/contexts/AuthContext";
+import BackgroundLayout from "./components/ui/backgroundLayout";
 
 import EmployeeModal from "./components/modals/EmployeeModal";
 import ManagerModal from "./components/modals/ManagerModal";
 import ProfessionModal from "./components/modals/ProfessionModal";
-
-import BackgroundLayout from "./components/ui/backgroundLayout";
 import IssueModal from "./components/modals/IssueModal";
 
-function ProtectedRoute({ isAuth }) {
-  return isAuth ? <Outlet /> : <Navigate to="/" replace />;
-}
+const ProtectedRoute = ({ isAuth }) =>
+  isAuth ? <Outlet /> : <Navigate to="/" replace />;
 
 function Root({ isAuth }) {
   return (
@@ -28,6 +27,7 @@ function Root({ isAuth }) {
       <BackgroundLayout>
         {isAuth ? <NavAdmin /> : <NavPublic />}
         <Outlet />
+
         <IssueModal />
         <EmployeeModal />
         <ManagerModal />
@@ -39,12 +39,15 @@ function Root({ isAuth }) {
 
 function App() {
   const { isAuth, user } = useContext(AuthContext);
+  const isManagerOrAdmin =
+    user?.permission?.includes("Admin") ||
+    user?.permission?.includes("Manager");
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root isAuth={isAuth} />}>
         {/* Public Routes */}
-        <Route element={isAuth ? <Navigate to={"/welcomepage"} /> : <Outlet />}>
+        <Route element={isAuth ? <Navigate to={"/welcomePage"} /> : <Outlet />}>
           <Route
             index
             lazy={async () => ({
@@ -64,7 +67,7 @@ function App() {
 
         <Route element={<ProtectedRoute isAuth={isAuth} />}>
           <Route
-            path="welcomepage"
+            path="welcomePage"
             lazy={async () => ({
               Component: (
                 await import("./components/pages/privatePages/WelcomePage")
@@ -77,7 +80,7 @@ function App() {
             (user?.permission === "Admin" ||
               user?.permission === "Manager") && (
               <Route
-                path="allemployees"
+                path="allEmployees"
                 lazy={async () => ({
                   Component: (
                     await import("./components/pages/privatePages/AllEmployees")
@@ -103,7 +106,7 @@ function App() {
             })}
           />
           <Route
-            path="allmanagers"
+            path="allManagers"
             lazy={async () => ({
               Component: (
                 await import("./components/pages/privatePages/AllManagers")
@@ -111,21 +114,21 @@ function App() {
             })}
           />
           <Route
-            path="addissue"
+            path="addIssue"
             lazy={async () => ({
               Component: (await import("./components/pages/forms/IssueForm"))
                 .default,
             })}
           />
           <Route
-            path="allissues"
+            path="allIssues"
             lazy={async () => ({
               Component: (await import("./components/cards/CardIssues"))
                 .default,
             })}
           />
           <Route
-            path="issueshistory"
+            path="issuesHistory"
             lazy={async () => ({
               Component: (await import("./components/cards/IssuesHistory"))
                 .default,
@@ -161,17 +164,6 @@ function App() {
             ).default,
           })}
         />
-        {/* <Route
-          path="Offices"
-          lazy={async () => ({
-            Component: (
-              await import("./components/pages/publicPages/mainPage/Offices")
-            ).default,
-          })}
-        /> */}
-
-        {/* <Route path="*" element={<Navigate to="/" replace />} />
-        {/* </Routh> */}
       </Route>
     )
   );

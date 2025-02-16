@@ -57,25 +57,25 @@ function NavAdmin() {
             </NavLink>
             <NavLink
               className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-              to={"allissues"}
+              to={"allIssues"}
             >
               Issues Management
             </NavLink>
             <NavLink
               className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-              to={"issueshistory"}
+              to={"issuesHistory"}
             >
               Issues History
             </NavLink>
             <NavLink
               className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-              to={"allemployees"}
+              to={"allEmployees"}
             >
               Employee Management
             </NavLink>
             {user.permission === "Admin" && (
               <NavLink
-                to={"allmanagers"}
+                to={"allManagers"}
                 className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
               >
                 Manager Management
@@ -223,25 +223,25 @@ function NavAdmin() {
           </NavLink>
           <NavLink
             className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-lg font-medium transition-colors duration-200"
-            to={"allissues"}
+            to={"allIssues"}
           >
             Issues Management
           </NavLink>
           <NavLink
             className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-lg font-medium transition-colors duration-200"
-            to={"issueshistory"}
+            to={"issuesHistory"}
           >
             Issues History
           </NavLink>
           <NavLink
             className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-lg font-medium transition-colors duration-200"
-            to={"allemployees"}
+            to={"allEmployees"}
           >
             Employee Management
           </NavLink>
           {user.permission === "Admin" && (
             <NavLink
-              to={"allmanagers"}
+              to={"allManagers"}
               className="text-amber-900 hover:bg-amber-50 px-3 py-2 rounded-lg text-lg font-medium transition-colors duration-200"
             >
               Manager Management
