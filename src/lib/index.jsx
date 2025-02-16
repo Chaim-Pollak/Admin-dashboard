@@ -22,7 +22,7 @@ function adjustColumnWidths(data) {
   return wsCols;
 }
 
-export function exportToXL(json, exelName) {
+export function exportToXL(json, excelName) {
   // Generate XL Page
   const wb = XLSX.utils.book_new();
   // Convert Json To CheetSheet
@@ -31,6 +31,6 @@ export function exportToXL(json, exelName) {
   ws["!cols"] = adjustColumnWidths(json);
 
   // Create New Xl Page With Data
-  XLSX.utils.book_append_sheet(wb, ws, exelName);
-  XLSX.writeFile(wb, `${exelName}.xlsx`);
+  XLSX.utils.book_append_sheet(wb, ws, excelName);
+  XLSX.writeFile(wb, `${excelName}.xlsx`);
 }
