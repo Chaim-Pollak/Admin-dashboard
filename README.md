@@ -16,7 +16,7 @@
 1. Clone the project:
 
    ```bash
-   git clone https://github.com/yourusername/construction-issue-manager.git
+   git clone https://github.com/Chaim-Pollak/Admin-dashboard.git
    ```
 
 2. Install dependencies:
