@@ -11,9 +11,9 @@ import NavAdmin from "./components/section/NavAdmin";
 import NavPublic from "./components/section/NavPublic";
 import { AuthContext } from "./components/contexts/AuthContext";
 
-import EmployeeModal from "./components/modals/employeeModal";
-import ModalManager from "./components/modals/ModalManager";
-import ModalAddProfession from "./components/modals/modalAddProfession";
+import EmployeeModal from "./components/modals/EmployeeModal";
+import ManagerModal from "./components/modals/ManagerModal";
+import ProfessionModal from "./components/modals/ProfessionModal";
 
 import BackgroundLayout from "./components/ui/backgroundLayout";
 import IssueModal from "./components/modals/IssueModal";
@@ -30,8 +30,8 @@ function Root({ isAuth }) {
         <Outlet />
         <IssueModal />
         <EmployeeModal />
-        <ModalManager />
-        <ModalAddProfession />
+        <ManagerModal />
+        <ProfessionModal />
       </BackgroundLayout>
     </>
   );
@@ -73,16 +73,19 @@ function App() {
           />
 
           {/* Private Routes */}
-          {isAuth && user?.permission === "Admin" && (
-            <Route
-              path="allemployees"
-              lazy={async () => ({
-                Component: (
-                  await import("./components/pages/privatePages/AllEmployees")
-                ).default,
-              })}
-            />
-          )}
+          {isAuth &&
+            (user?.permission === "Admin" ||
+              user?.permission === "Manager") && (
+              <Route
+                path="allemployees"
+                lazy={async () => ({
+                  Component: (
+                    await import("./components/pages/privatePages/AllEmployees")
+                  ).default,
+                })}
+              />
+            )}
+
           <Route
             path="Professions"
             lazy={async () => ({
@@ -158,14 +161,14 @@ function App() {
             ).default,
           })}
         />
-        <Route
+        {/* <Route
           path="Offices"
           lazy={async () => ({
             Component: (
               await import("./components/pages/publicPages/mainPage/Offices")
             ).default,
           })}
-        />
+        /> */}
 
         {/* <Route path="*" element={<Navigate to="/" replace />} />
         {/* </Routh> */}
