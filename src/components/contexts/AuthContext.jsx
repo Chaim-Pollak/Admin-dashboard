@@ -19,8 +19,7 @@ function AuthProvider({ children }) {
         return true;
       }
     } catch (error) {
-      const msg = error.response.data.error;
-      showErrorToast(msg);
+      showErrorToast(error.response.data.error);
       return false;
     }
   }

@@ -58,7 +58,7 @@ function LoginForm() {
           <input
             id="manager_password"
             name="manager_password"
-            type="text"
+            type="password"
             className="block w-full pl-10 rounded-xl border-2 border-amber-200 bg-amber-50 py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
             placeholder="Enter your password"
             required
@@ -74,7 +74,6 @@ function LoginForm() {
       </div>
 
       {/* submit */}
-
       <button
         type="submit"
         disabled={formik.isSubmitting}

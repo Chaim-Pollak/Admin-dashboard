@@ -13,7 +13,8 @@ function Login() {
         <div className="mt-8 text-center">
           <a
             href="#"
-            className="text-sm font-medium text-amber-600 hover:text-amber-800 transition-colors duration-200"
+            className="cursor-not-allowed text-sm font-medium text-amber-600 hover:text-amber-800 transition-colors duration-200"
+            aria-disabled={"true"}
           >
             Forgot your password?
           </a>
