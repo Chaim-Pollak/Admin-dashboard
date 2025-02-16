@@ -1,16 +1,20 @@
 import React from "react";
 import { FaSearchengin } from "react-icons/fa";
 import { Search } from "lucide-react";
-function SearchInput({ setSearchInput, suggestions, suggestionKey, onClick }) {
+function SearchInput({
+  setSearchInput,
+  suggestions,
+  suggestionKey,
+  onClick,
+  placeholder,
+}) {
   return (
     <div className="relative flex-1 min-w-[150px] max-w-[300px] ">
       <input
         onChange={(e) => setSearchInput(e.target.value)}
         type="text"
-        placeholder="Search by email..."
-        className="w-full pl-4 py-2 rounded-xl  bg-amber-50 border-2 border-amber-200 
-                    focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                    transition-all duration-300"
+        placeholder={placeholder}
+        className="w-full pl-4 py-2 rounded-xl  bg-amber-50 border-2 border-amber-200 focus:outline-none transition-all duration-300"
         id="searchInput"
         name="searchInput"
       />

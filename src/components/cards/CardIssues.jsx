@@ -107,6 +107,7 @@ function CardIssues() {
           onClick={(current) => {
             setSelected(current);
           }}
+          placeholder="Search by Building..."
         />
 
         <div className="flex-1 text-center">

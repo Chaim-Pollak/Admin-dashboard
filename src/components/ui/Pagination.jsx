@@ -33,7 +33,7 @@ function Pagination({ listLength, limit, setPage }) {
             <li key={btn}>
               <Link
                 onClick={() => setPage(btn)}
-                className="flex items-center justify-center px-3 h-8 leading-tight text-amber-700 bg-white border border-amber-200 hover:bg-amber-50 hover:text-amber-800 transition-colors duration-200"
+                className="flex items-center justify-center px-3 h-8 leading-tight text-amber-900 bg-white border border-amber-200 hover:bg-amber-50 hover:text-amber-800 transition-colors duration-200"
               >
                 {btn}
               </Link>
@@ -42,7 +42,7 @@ function Pagination({ listLength, limit, setPage }) {
           <li>
             <Link
               onClick={nextPage}
-              className="flex items-center justify-center px-3 h-8 leading-tight text-amber-700 bg-white border border-amber-200 rounded-e-lg hover:bg-amber-50 hover:text-amber-800 transition-colors duration-200"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-amber-900 bg-white border border-amber-200 rounded-e-lg hover:bg-amber-50 hover:text-amber-800 transition-colors duration-200"
             >
               Next
             </Link>

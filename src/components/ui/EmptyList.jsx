@@ -3,7 +3,6 @@ import React from "react";
 function EmptyList({ rule }) {
   return (
     <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-lg p-8 mt-8">
-      {/* Empty State Illustration */}
       <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mb-6">
         <svg
           className="w-12 h-12 text-amber-600"
