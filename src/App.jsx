@@ -5,7 +5,7 @@ import {
   Outlet,
   Route,
   RouterProvider,
-} from "react-router-dom";
+} from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "./components/contexts/AuthContext";
 

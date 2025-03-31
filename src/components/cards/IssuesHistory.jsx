@@ -62,9 +62,7 @@ function IssuesHistory() {
                 </svg>
                 <div>
                   <div className="text-xs text-amber-600">Building</div>
-                  <div className="font-bold text-sm text-amber-900">
-                    {history.issue_building}
-                  </div>
+                  <div className="font-bold text-sm text-amber-900">{history.issue_building}</div>
                 </div>
               </div>
               <div className="bg-white px-3 py-1.5 rounded-xl shadow-md flex items-center space-x-2 border border-amber-100">
@@ -83,9 +81,7 @@ function IssuesHistory() {
                 </svg>
                 <div>
                   <div className="text-xs text-amber-600">Floor</div>
-                  <div className="font-bold text-sm text-amber-900">
-                    {history.issue_floor}
-                  </div>
+                  <div className="font-bold text-sm text-amber-900">{history.issue_floor}</div>
                 </div>
               </div>
               <div className="bg-white px-3 py-1.5 rounded-xl shadow-md flex items-center space-x-2 border border-amber-100">
@@ -104,9 +100,7 @@ function IssuesHistory() {
                 </svg>
                 <div>
                   <div className="text-xs text-amber-600">apartment</div>
-                  <div className="font-bold text-sm text-amber-900">
-                    {history.issue_apartment}
-                  </div>
+                  <div className="font-bold text-sm text-amber-900">{history.issue_apartment}</div>
                 </div>
               </div>
             </div>
@@ -124,17 +118,10 @@ function IssuesHistory() {
 
               {/* Navigation Arrows */}
               <button
-                onClick={() =>
-                  prevImage(history._id, history.issue_images.length)
-                }
+                onClick={() => prevImage(history._id, history.issue_images.length)}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/90 text-white hover:text-amber-600 p-2 rounded-full backdrop-blur-sm transition-all duration-200 transform hover:scale-110"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -144,17 +131,10 @@ function IssuesHistory() {
                 </svg>
               </button>
               <button
-                onClick={() =>
-                  nextImage(history._id, history.issue_images.length)
-                }
+                onClick={() => nextImage(history._id, history.issue_images.length)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/90 text-white hover:text-amber-600 p-2 rounded-full backdrop-blur-sm transition-all duration-200 transform hover:scale-110"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -166,8 +146,7 @@ function IssuesHistory() {
 
               {/* Image Counter */}
               <div className="absolute bottom-2 right-2 bg-white/10 backdrop-blur-md text-white px-3 py-0.5 rounded-full text-xs font-medium border border-white/20">
-                {(currentIndexes[history._id] || 0) + 1}/
-                {history.issue_images.length}
+                {(currentIndexes[history._id] || 0) + 1}/{history.issue_images.length}
               </div>
             </div>
 
@@ -183,9 +162,7 @@ function IssuesHistory() {
               </div>
 
               <div className="flex-1 overflow-y-auto hover:overflow-y-scroll pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-amber-100 [&::-webkit-scrollbar-track]:rounded-lg [&::-webkit-scrollbar-thumb]:bg-amber-500 [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb]:hover:bg-amber-600">
-                <h3 className="text-base font-bold text-amber-900">
-                  {history.issue_description}
-                </h3>
+                <h3 className="text-base font-bold text-amber-900">{history.issue_description}</h3>
               </div>
 
               <div className="mt-4 flex justify-center items-center pt-3 border-t border-amber-100 text-amber-600">

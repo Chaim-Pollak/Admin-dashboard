@@ -246,6 +246,7 @@ function CardIssues() {
               {/* Image Carousel */}
               <div className="relative h-48 mb-4 rounded-xl overflow-hidden shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+                {/* //TODO */}
                 <div className="flex transition-transform duration-300 h-full">
                   <img
                     src={issue?.issue_images[currentIndexes[issue._id] || 0]}
